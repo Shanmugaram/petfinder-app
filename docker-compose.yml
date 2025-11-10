@@ -3,25 +3,31 @@ version: "3.8"
 services:
   mongo:
     image: mongo:6
+    container_name: petfinder-mongo
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      # Use mongosh instead of mongo (mongo client removed from MongoDB 6+ images)
+      test: ["CMD-SHELL", "mongosh --eval 'db.runCommand({ ping: 1 })' || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - "27017:27017" # Optional (for manual testing / connection from host)
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: petfinder-backend
     environment:
-      - MONGO_URI=mongodb://mongo:27017/petmanagement
       - NODE_ENV=production
       - PORT=3000
+      - MONGO_URI=mongodb://mongo:27017/petmanagement
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -32,8 +38,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: petfinder-frontend
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - backend
     restart: unless-stopped
