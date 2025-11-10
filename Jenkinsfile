@@ -4,9 +4,9 @@ pipeline {
   environment {
     DOCKERHUB_CREDENTIALS = "dockerhub-creds-id"
     SSH_CREDENTIALS = "ssh-deploy-creds-id"
-    IMAGE_NAME = "YOUR_DOCKERHUB_USERNAME/petfinder-backend"
+    IMAGE_NAME = "shanmugaram/petfinder-backend"
     DEPLOY_DIR = "/home/ubuntu/petfinder-deploy"
-    DEPLOY_HOST = "YOUR.EC2.IP.HERE"
+    DEPLOY_HOST = "13.56.138.189"
   }
 
   stages {
