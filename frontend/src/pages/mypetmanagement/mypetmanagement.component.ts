@@ -55,7 +55,7 @@ export class MypetmanagementComponent {
     }
   }
   getmypetdata() {
-    this.commonService.getRequest('users/get_my_pet_reports').then((mypetres: any) => {
+    this.commonService.getRequest('auth/get_my_pet_reports').then((mypetres: any) => {
 
       this.my_pet_details = mypetres.data
       this.mypettotal = mypetres.data.length
@@ -97,7 +97,7 @@ export class MypetmanagementComponent {
       formData.append('petage', this.petreportdetails.petage);
       formData.append('locationlat', this.petreportdetails.lastsightlocation.lat);
       formData.append('locationlng', this.petreportdetails.lastsightlocation.lng);
-      this.commonService.postFileRequest('users/report_pet_missing', formData).then((petreposrtresponse: any) => {
+      this.commonService.postFileRequest('auth/report_pet_missing', formData).then((petreposrtresponse: any) => {
         if (petreposrtresponse.status) {
           this.commonService.alert('Success', petreposrtresponse.message)
         } else {
@@ -173,7 +173,7 @@ export class MypetmanagementComponent {
   updateStatus(updatemodal: any, updatestatusform: NgForm) {
     this.spinner.show()
 
-    this.commonService.postRequest('users/update_pet_status', { petid: this.selectedpetdata._id, reportstatus: this.selectedpetdata.reportupdatestatus }).then((contactpetRes: any) => {
+    this.commonService.postRequest('auth/update_pet_status', { petid: this.selectedpetdata._id, reportstatus: this.selectedpetdata.reportupdatestatus }).then((contactpetRes: any) => {
       if (contactpetRes.status) {
         updatemodal.hide()
         this.commonService.alert('Success', contactpetRes.message)

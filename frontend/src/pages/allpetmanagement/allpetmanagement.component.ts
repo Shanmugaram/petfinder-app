@@ -52,7 +52,7 @@ export class AllpetmanagementComponent {
     }
   }
   getallpetdata() {
-    this.commonService.getRequest('users/get_all_pet_reports').then((allpetres: any) => {
+    this.commonService.getRequest('auth/get_all_pet_reports').then((allpetres: any) => {
       this.all_pet_details = allpetres.data
       this.allpettotal = allpetres.data.length
     }).catch((_allpetreserror: any) => {
@@ -68,7 +68,7 @@ export class AllpetmanagementComponent {
   }
   submitcontactpet(contactpetmodal: any, helppetform: NgForm) {
     this.spinner.hide()
-    this.commonService.postRequest('users/contact_pet_owner', { petid: this.selected_allpetdetails._id, description: this.contact_pet_details.contactdescription }).then((contactpetRes: any) => {
+    this.commonService.postRequest('auth/contact_pet_owner', { petid: this.selected_allpetdetails._id, description: this.contact_pet_details.contactdescription }).then((contactpetRes: any) => {
       if (contactpetRes.status) {
         contactpetmodal.hide()
         this.commonService.alert('Success', contactpetRes.message)

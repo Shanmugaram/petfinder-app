@@ -13,28 +13,36 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 })
 export class SignupComponent {
   user: any = {};
-  constructor(public commonService: CommonService, private spinner: NgxSpinnerService) {
 
-  }
+  constructor(
+    public commonService: CommonService,
+    private spinner: NgxSpinnerService
+  ) {}
+
   onSubmit(signupform: NgForm): void {
-    this.spinner.show()
+    this.spinner.show();
+
     if (signupform.valid) {
-      this.commonService.postRequest('users/signup', this.user).then((signupresponse: any) => {
-        if (signupresponse.status) {
-          this.commonService.alert('Success', signupresponse.message)
-          this.spinner.hide()
-          this.commonService.redirectTo('/signin')
-        } else {
-          this.spinner.hide()
-          this.commonService.alert('Error', signupresponse.message)
-        }
-      }).catch((signuperr: any) => {
-        this.spinner.hide()
-        this.commonService.alert('Error', signuperr.message)
-      })
+      // ✅ Correct backend endpoint
+      this.commonService.postRequest('signup', this.user)
+        .then((signupresponse: any) => {
+          this.spinner.hide();
+
+          if (signupresponse.status) {
+            this.commonService.alert('Success', signupresponse.message);
+            this.commonService.redirectTo('/signin');
+          } else {
+            this.commonService.alert('Error', signupresponse.message);
+          }
+        })
+        .catch((signuperr: any) => {
+          this.spinner.hide();
+          this.commonService.alert('Error', signuperr.message || 'Something went wrong');
+        });
     } else {
-      this.spinner.hide()
-      this.commonService.alert('Error', 'Invalid input field')
+      this.spinner.hide();
+      this.commonService.alert('Error', 'Invalid input field');
     }
   }
 }
+
