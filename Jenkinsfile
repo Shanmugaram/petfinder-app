@@ -5,7 +5,7 @@ pipeline {
     DOCKERHUB_CREDENTIALS = "dockerhub-creds-id"
     SSH_CREDENTIALS = "ssh-deploy-creds-id"
     IMAGE_NAME = "shanmugaram/petfinder-backend"
-    DEPLOY_DIR = "/home/ubuntu/petfinder-deploy"
+    DEPLOY_DIR = "/home/ubuntu/petfinder-app"
     DEPLOY_HOST = "13.56.138.189"
   }
 
